@@ -64,7 +64,7 @@ public class P327JobConfig {
     }
 
     @Bean
-    private Step partionerStep() {
+    public Step partionerStep() {
         return new StepBuilder("partitionerStep", jobRepository)
                 .partitioner("p327Step", acctRangePartitioner(null, null))
                 .step(p327Step())
@@ -76,7 +76,7 @@ public class P327JobConfig {
      * @return
      */
     @Bean
-    private Step p327Step() {
+    public Step p327Step() {
         return new StepBuilder("p327Step", jobRepository)
                 .<Map<String, Object>, Map<String, String>>chunk(100, transactionManager)
                 .reader(p327Reader)

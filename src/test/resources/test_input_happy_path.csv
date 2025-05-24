@@ -1,0 +1,4 @@
+Field Name,Target Position,Length,Data Type,Format,Pad,Transformation Type,Transform,Default Value,Target Field Name,Source Field Name,If Expression,Else If Expression,Else
+Field1,1,10,String,None,right,None,None,Default1,Target1,Source1,Source1 == "A",Source1 == "B"|Source1 == "C",Source1 == "D"
+Field2,11,5,Integer,None,left,None,None,123,Target2,Source2,Source2 > 10,,
+Field3,16,8,Date,yyyyMMdd,None,None,None,,Target3,Source3,,,Source3 == "X"

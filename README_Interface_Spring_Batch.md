@@ -136,6 +136,7 @@ Tests cover:
 - YAML parsing
 - Processor logic
 - Error handling
+- `CsvToYamlConverter` utility, covering CSV parsing, YAML output, conditional logic, and error handling.
 
 Run with:
 ```bash
