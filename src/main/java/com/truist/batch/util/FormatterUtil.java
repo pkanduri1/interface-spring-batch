@@ -4,26 +4,49 @@ public class FormatterUtil{
 
     /**
      * Pads a string value to the specified length, using the given pad character and side.
-     * 
-     * @param value   The original string (null will be treated as empty).
-     * @param length  The desired total length after padding.
-     * @param padSide The side to pad: "LEFT" or "RIGHT" (case-insensitive).
-     * @param padChar The character to use for padding.
-     * @return        The padded string.
+     * If the provided length is zero or negative, the original string is returned unmodified.
+     * If the original string is already longer than or equal to the specified length,
+     * it will be truncated to that length.
+     * If padChar is null or empty, a space character will be used for padding.
+     *
+     * @param value   The original string (null will be treated as an empty string).
+     * @param length  The desired total length after padding/truncation. If <= 0, original string is returned.
+     * @param padSide The side to pad: "LEFT" or "RIGHT" (case-insensitive). Defaults to "RIGHT" if null or unrecognized.
+     * @param padChar The character to use for padding. Defaults to ' ' (space) if null or empty.
+     * @return        The padded (or truncated) string.
      */
     public static String pad(String value, int length, String padSide, String padChar) {
-        if (value == null) value = "";
-        int padLength = length - value.length();
-        if (padLength <= 0) return value.substring(0, length);
-
-        StringBuilder padding = new StringBuilder();
-        for (int i = 0; i < padLength; i++) {
-            padding.append(padChar);
+        if (value == null) {
+            value = "";
         }
+
+        // If length is not positive, return the original value as is.
+        if (length <= 0) {
+            return value;
+        }
+
+        // If value is already at or longer than desired length, truncate it.
+        if (value.length() >= length) {
+            return value.substring(0, length);
+        }
+
+        // At this point, value.length() < length, so we need to pad.
+        // Determine pad character
+        char actualPadChar = ' '; // Default to space
+        if (padChar != null && !padChar.isEmpty()) {
+            actualPadChar = padChar.charAt(0);
+        }
+
+        int padAmount = length - value.length();
+        StringBuilder padding = new StringBuilder(padAmount);
+        for (int i = 0; i < padAmount; i++) {
+            padding.append(actualPadChar);
+        }
+
         if ("LEFT".equalsIgnoreCase(padSide)) {
-            return padding + value;
-        } else { // default/right
-            return value + padding;
+            return padding.toString() + value;
+        } else { // Default to right padding
+            return value + padding.toString();
         }
     }
     /**
