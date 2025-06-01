@@ -1,0 +1,173 @@
+batch:
+  sources:
+    shaw:
+      inputBasePath:  ${batch.defaults.inputBasePath}/shaw
+      outputBasePath: ${batch.defaults.outputBasePath}/shaw
+      stagingSchema:  ${batch.defaults.stagingSchema}
+      destSchema:     ${batch.defaults.destSchema}
+
+      jobs:
+        p327:
+          files:
+            # p327
+            - template:     p327
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_ACCOUNTS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/p327.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT a.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_ACCOUNTS a
+                  JOIN ${batch.defaults.destSchema}.DIM_TABLE d
+                    ON a.KEY = d.KEY
+                  WHERE a.${batch.defaults.batchDateParam} = :batchDate
+
+        atoctran:
+          files:
+            # Transaction type A
+            - transactionType: TXN_A
+              template:     atoctran
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_TRANSACTIONS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/atoctran.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT t.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_TRANSACTIONS t
+                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
+                    AND t.txn_type = 'TXN_A'
+
+            # Transaction type B
+            - transactionType: TXN_B
+              template:     atoctran
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_TRANSACTIONS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/atoctran.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT t.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_TRANSACTIONS t
+                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
+                    AND t.txn_type = 'TXN_B'
+
+        cdstrans:
+          files:
+            # Transaction type A
+            - transactionType: TXN_A
+              template:     cdstrans
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_CDS_TRANSACTIONS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/cdstrans.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT c.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_CDS_TRANSACTIONS c
+                  WHERE c.${batch.defaults.batchDateParam} = :batchDate
+                    AND c.txn_type = 'TXN_A'
+
+            # Transaction type B
+            - transactionType: TXN_B
+              template:     cdstrans
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_CDS_TRANSACTIONS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/cdstrans.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT c.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_CDS_TRANSACTIONS c
+                  WHERE c.${batch.defaults.batchDateParam} = :batchDate
+                    AND c.txn_type = 'TXN_B'
+
+        trainers:
+          files:
+            # Transaction type A
+            - transactionType: TXN_A
+              template:     trainers
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_TRAINERS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/trainers.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT tr.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_TRAINERS tr
+                  WHERE tr.${batch.defaults.batchDateParam} = :batchDate
+                    AND tr.txn_type = 'TXN_A'
+
+            # Transaction type B
+            - transactionType: TXN_B
+              template:     trainers
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_TRAINERS
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/trainers.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT tr.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_TRAINERS tr
+                  WHERE tr.${batch.defaults.batchDateParam} = :batchDate
+                    AND tr.txn_type = 'TXN_B'
+
+        contact:
+          files:
+            # contact
+            - template:     contact
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_CONTACT
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/contact.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT co.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_CONTACT co
+                  JOIN ${batch.defaults.destSchema}.DIM_TABLE d
+                    ON co.KEY = d.KEY
+                  WHERE co.${batch.defaults.batchDateParam} = :batchDate
+
+        contact-account:
+          files:
+            # contact-account
+            - template:     contact-account
+              target:       ${batch.defaults.stagingSchema}.STG_SHAW_CONTACT_ACCOUNT
+              params:
+                format:         jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath:     ${batch.defaults.outputBasePath}/shaw/contact-account.dat
+                fetchSize:      "500"
+                pageSize:       "1000"
+                query: >
+                  SELECT ca.*
+                  FROM ${batch.defaults.stagingSchema}.STG_SHAW_CONTACT_ACCOUNT ca
+                  JOIN ${batch.defaults.destSchema}.DIM_TABLE d
+                    ON ca.KEY = d.KEY
+                  WHERE ca.${batch.defaults.batchDateParam} = :batchDate

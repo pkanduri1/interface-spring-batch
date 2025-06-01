@@ -1,5 +1,6 @@
 package com.truist.batch.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FieldMapping {
+public class FieldMapping implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
 	private String fieldName;
     private String value;
     private String sourceField;
@@ -29,6 +32,4 @@ public class FieldMapping {
     private int targetPosition;
     private String dataType;
     private String defaultValue;
-
-    // Getters and Setters omitted for brevity
 }

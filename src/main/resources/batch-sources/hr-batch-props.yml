@@ -1,0 +1,59 @@
+# Simplified version - recommended for quick testing
+batch:
+  sources:
+    hr:
+      inputBasePath:  ${batch.defaults.inputBasePath}/hr
+      outputBasePath: ${batch.defaults.outputBasePath}/hr
+      stagingSchema:  ${batch.defaults.stagingSchema}
+      destSchema:     ${batch.defaults.destSchema}
+
+      jobs:
+        p327:
+          files:
+            # Simple output path with date placeholder
+            - target: ${batch.defaults.stagingSchema}.hr_master
+              params:
+                format: jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath: ${batch.defaults.outputBasePath}/hr/p327-hr-${DATE}.txt
+                fetchSize: "500"
+                pageSize: "1000"
+                query: >
+                  SELECT *
+                  FROM ${batch.defaults.stagingSchema}.HR_MASTER a where a.batch_date=
+                  (select max(batch_date) from ${batch.defaults.stagingSchema}.batch_date_locator)
+
+        atoctran:
+          files:
+            # Transaction type A - Simple paths
+            - transactionType: TXN_A
+              target: ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS
+              params:
+                format: jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath: ${batch.defaults.outputBasePath}/hr/atoctran-txn-a-${DATE}.dat
+                fetchSize: "500"
+                pageSize: "1000"
+                query: >
+                  SELECT t.*
+                  FROM ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS t
+                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
+                    AND t.txn_type = 'TXN_A'
+
+            # Transaction type B
+            - transactionType: TXN_B
+              target: ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS
+              params:
+                format: jdbc
+                batchDateParam: ${batch.defaults.batchDateParam}
+                batchDateValue: ${batch.defaults.batchDateValue}
+                outputPath: ${batch.defaults.outputBasePath}/hr/atoctran-txn-b-${DATE}.dat
+                fetchSize: "500"
+                pageSize: "1000"
+                query: >
+                  SELECT t.*
+                  FROM ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS t
+                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
+                    AND t.txn_type = 'TXN_B'

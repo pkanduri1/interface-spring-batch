@@ -1,0 +1,879 @@
+---
+fileType: "p327"
+transactionType: "default"
+fields:
+  location-code:
+    fieldName: "location-code"
+    value: null
+    sourceField: ""
+    targetField: "location-code"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 1
+    dataType: "string"
+    defaultValue: "100020"
+  acct-num:
+    fieldName: "acct-num"
+    value: null
+    sourceField: "acct_num"
+    targetField: "acct-num"
+    from: null
+    length: 18
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 2
+    dataType: "string"
+    defaultValue: " "
+  credit-limit-amt:
+    fieldName: "credit-limit-amt"
+    value: null
+    sourceField: ""
+    targetField: "credit-limit-amt"
+    from: null
+    length: 13
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(12)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 3
+    dataType: "numeric"
+    defaultValue: "0"
+  expiration-date:
+    fieldName: "expiration-date"
+    value: null
+    sourceField: ""
+    targetField: "expiration-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 4
+    dataType: "date"
+    defaultValue: "00000000"
+  balance-amt:
+    fieldName: "balance-amt"
+    value: null
+    sourceField: ""
+    targetField: "balance-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 5
+    dataType: "numeric"
+    defaultValue: "0"
+  overlimit-amt:
+    fieldName: "overlimit-amt"
+    value: null
+    sourceField: ""
+    targetField: "overlimit-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 6
+    dataType: "numeric"
+    defaultValue: "0"
+  disputed-amt:
+    fieldName: "disputed-amt"
+    value: null
+    sourceField: ""
+    targetField: "disputed-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 7
+    dataType: "numeric"
+    defaultValue: "0"
+  total-due-amt:
+    fieldName: "total-due-amt"
+    value: null
+    sourceField: ""
+    targetField: "total-due-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 8
+    dataType: "numeric"
+    defaultValue: "0"
+  current-due-amt:
+    fieldName: "current-due-amt"
+    value: null
+    sourceField: ""
+    targetField: "current-due-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 9
+    dataType: "numeric"
+    defaultValue: "0"
+  coll-asgn-ud-1:
+    fieldName: "coll-asgn-ud-1"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-1"
+    from: null
+    length: 12
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 10
+    dataType: "string"
+    defaultValue: "0"
+  coll-asgn-ud-type1:
+    fieldName: "coll-asgn-ud-type1"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-type1"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 11
+    dataType: "string"
+    defaultValue: " "
+  coll-asgn-ud-fmt-1:
+    fieldName: "coll-asgn-ud-fmt-1"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-fmt-1"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 12
+    dataType: "string"
+    defaultValue: " "
+  coll-asgn-ud-2:
+    fieldName: "coll-asgn-ud-2"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-2"
+    from: null
+    length: 12
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 13
+    dataType: "string"
+    defaultValue: " "
+  coll-asgn-ud-type2:
+    fieldName: "coll-asgn-ud-type2"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-type2"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 14
+    dataType: "string"
+    defaultValue: " "
+  coll-asgn-ud-fmt-2:
+    fieldName: "coll-asgn-ud-fmt-2"
+    value: null
+    sourceField: ""
+    targetField: "coll-asgn-ud-fmt-2"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 15
+    dataType: "string"
+    defaultValue: " "
+  total-delinq-amt:
+    fieldName: "total-delinq-amt"
+    value: null
+    sourceField: ""
+    targetField: "total-delinq-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 16
+    dataType: "numeric"
+    defaultValue: " "
+  cycles-delinq-cnt:
+    fieldName: "cycles-delinq-cnt"
+    value: null
+    sourceField: ""
+    targetField: "cycles-delinq-cnt"
+    from: null
+    length: 2
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(2)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 17
+    dataType: "numeric"
+    defaultValue: "0"
+  days-delinq-cnt:
+    fieldName: "days-delinq-cnt"
+    value: null
+    sourceField: ""
+    targetField: "days-delinq-cnt"
+    from: null
+    length: 5
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(5)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 18
+    dataType: "numeric"
+    defaultValue: "0"
+  last-payment-amt:
+    fieldName: "last-payment-amt"
+    value: null
+    sourceField: ""
+    targetField: "last-payment-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 19
+    dataType: "numeric"
+    defaultValue: "0"
+  charge-off-date:
+    fieldName: "charge-off-date"
+    value: null
+    sourceField: ""
+    targetField: "charge-off-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 20
+    dataType: "date"
+    defaultValue: "00000000"
+  dlq-days-chrg-off:
+    fieldName: "dlq-days-chrg-off"
+    value: null
+    sourceField: ""
+    targetField: "dlq-days-chrg-off"
+    from: null
+    length: 5
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(5)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 21
+    dataType: "numeric"
+    defaultValue: "0"
+  lst-part-cof-amt:
+    fieldName: "lst-part-cof-amt"
+    value: null
+    sourceField: ""
+    targetField: "lst-part-cof-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 22
+    dataType: "numeric"
+    defaultValue: "0"
+  tot-part-cof-amt:
+    fieldName: "tot-part-cof-amt"
+    value: null
+    sourceField: ""
+    targetField: "tot-part-cof-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 23
+    dataType: "numeric"
+    defaultValue: "0"
+  bal-part-cof-amt:
+    fieldName: "bal-part-cof-amt"
+    value: null
+    sourceField: ""
+    targetField: "bal-part-cof-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 24
+    dataType: "numeric"
+    defaultValue: "0"
+  part-cof-acct-num:
+    fieldName: "part-cof-acct-num"
+    value: null
+    sourceField: ""
+    targetField: "part-cof-acct-num"
+    from: null
+    length: 30
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 25
+    dataType: "string"
+    defaultValue: "0"
+  user-defined-7:
+    fieldName: "user-defined-7"
+    value: null
+    sourceField: ""
+    targetField: "user-defined-7"
+    from: null
+    length: 12
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "blank"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 26
+    dataType: "string"
+    defaultValue: " "
+  ud-7-type:
+    fieldName: "ud-7-type"
+    value: null
+    sourceField: ""
+    targetField: "ud-7-type"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 27
+    dataType: "string"
+    defaultValue: "0"
+  ud-7-fmt:
+    fieldName: "ud-7-fmt"
+    value: null
+    sourceField: ""
+    targetField: "ud-7-fmt"
+    from: null
+    length: 2
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 28
+    dataType: "string"
+    defaultValue: "0"
+  acct-open-date:
+    fieldName: "acct-open-date"
+    value: null
+    sourceField: ""
+    targetField: "acct-open-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 29
+    dataType: "date"
+    defaultValue: "00000000"
+  next-due-date:
+    fieldName: "next-due-date"
+    value: null
+    sourceField: ""
+    targetField: "next-due-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 30
+    dataType: "date"
+    defaultValue: "00000000"
+  interest-rate:
+    fieldName: "interest-rate"
+    value: null
+    sourceField: ""
+    targetField: "interest-rate"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(3)v9(3)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 31
+    dataType: "numeric"
+    defaultValue: "0"
+  oth-delinq-amt:
+    fieldName: "oth-delinq-amt"
+    value: null
+    sourceField: ""
+    targetField: "oth-delinq-amt"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 32
+    dataType: "numeric"
+    defaultValue: "0000000000000000000"
+  repo-charges:
+    fieldName: "repo-charges"
+    value: null
+    sourceField: ""
+    targetField: "repo-charges"
+    from: null
+    length: 19
+    pad: "left"
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "+9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 33
+    dataType: "numeric"
+    defaultValue: "0000000000000000000"
+  repossession-date:
+    fieldName: "repossession-date"
+    value: null
+    sourceField: ""
+    targetField: "repossession-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 34
+    dataType: "date"
+    defaultValue: "00000000"
+  maturity-date:
+    fieldName: "maturity-date"
+    value: null
+    sourceField: ""
+    targetField: "maturity-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "ccyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 35
+    dataType: "date"
+    defaultValue: "00000000"

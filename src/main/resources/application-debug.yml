@@ -1,0 +1,50 @@
+# application-debug.yml
+# Use this profile for debugging: --spring.profiles.active=debug
+
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/ORCLPDB1
+    username: cm3int
+    password: MySecurePass123
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+     maximum-pool-size: 5      # ← Reduced pool size for debugging
+     minimum-idle: 1
+     auto-commit: false
+     connection-timeout: 60000  # ← Extended for debugging
+     idle-timeout: 3600000      # ← 1 hour idle timeout
+     max-lifetime: 7200000      # ← 2 hour max lifetime
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: never
+      table-prefix: CM3INT.BATCH_
+    repository:
+      incrementer: 
+        prefix: CM3INT.
+
+batch:
+  gridSize: 1          # ← Single-threaded for debugging
+  chunkSize: 5         # ← Small chunks for debugging
+  debug:
+   enabled: true
+   disable-retry: true
+   single-threaded: true
+   extended-timeout: true
+  defaults:
+    inputBasePath: /data/basepath
+    outputBasePath: /app/software/CACS/ftp/input
+    stagingSchema: CM3INT
+    destSchema: CM3INT
+    batchDateParam: batch_date
+    batchDateValue: "#{jobExecutionContext['batchDate']}"
+
+logging:
+  level:
+    com.truist.batch: DEBUG
+    org.springframework.batch: DEBUG          # ← More verbose batch logging
+    org.springframework.jdbc: DEBUG           # ← See SQL statements
+    org.springframework.transaction: DEBUG    # ← See transaction boundaries
+    org.hibernate.SQL: DEBUG                  # ← If using JPA
+    
