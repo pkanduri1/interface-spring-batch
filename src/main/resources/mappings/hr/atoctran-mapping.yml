@@ -1,0 +1,139 @@
+---
+sourceSystem: "hr"
+targetName: "atoctran"
+description: "hr system to atoctran target mapping"
+defaults: {}
+mappings: {}
+transactionMappings:
+  '"900"':
+    TRANSACTION-DATE:
+      type: "SOURCE_FIELD"
+      sourceField: "TRANSACTION_DATE"
+      value: null
+      transform: null
+      fallback: "00000000"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    TRANSACTION-AMT:
+      type: "SOURCE_FIELD"
+      sourceField: "TRANSACTION_AMT"
+      value: null
+      transform: null
+      fallback: "0"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    LOCATION-CODE:
+      type: "SOURCE_FIELD"
+      sourceField: "LOCATION_CODE"
+      value: null
+      transform: null
+      fallback: "100020"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    ACCT-NUM:
+      type: "SOURCE_FIELD"
+      sourceField: "ACCT_NUM"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    TRANSACTION-TYPE:
+      type: "SOURCE_FIELD"
+      sourceField: "TRANSACTION_TYPE"
+      value: null
+      transform: null
+      fallback: "900"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+  '"200"':
+    TRANSACTION-DATE:
+      type: "SOURCE_FIELD"
+      sourceField: "TRANSACTION_DATE"
+      value: null
+      transform: null
+      fallback: "00000000"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    LOCATION-CODE:
+      type: "SOURCE_FIELD"
+      sourceField: "LOCATION_CODE"
+      value: null
+      transform: null
+      fallback: "100020"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    CCI:
+      type: "SOURCE_FIELD"
+      sourceField: "CCI"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    CONTACT-ID:
+      type: "SOURCE_FIELD"
+      sourceField: "CONTACT_ID"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    ACCT-NUM:
+      type: "SOURCE_FIELD"
+      sourceField: "ACCT_NUM"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    TRANSACTION-TYPE:
+      type: "SOURCE_FIELD"
+      sourceField: "TRANSACTION_TYPE"
+      value: null
+      transform: null
+      fallback: "200"
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    PRORT-LOCATION-CD:
+      type: "SOURCE_FIELD"
+      sourceField: "PRORT_LOCATION_CD"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+    PORTFOLIO:
+      type: "SOURCE_FIELD"
+      sourceField: "PORTFOLIO"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null

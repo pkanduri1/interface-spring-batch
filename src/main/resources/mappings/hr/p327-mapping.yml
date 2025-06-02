@@ -1,0 +1,358 @@
+---
+sourceSystem: "hr"
+targetName: "p327"
+description: "hr system to p327 target mapping"
+defaults:
+  EXPIRATION-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  DISPUTED-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  TOTAL-DELINQ-AMT:
+    type: "SOURCE_FIELD"
+    sourceField: ""
+    value: null
+    transform: null
+    fallback: ""
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  PART-COF-ACCT-NUM:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  NEXT-DUE-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-FMT-1:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-FMT-2:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  UD-7-FMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  REPO-CHARGES:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0000000000000000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  CREDIT-LIMIT-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  OTH-DELINQ-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0000000000000000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  CYCLES-DELINQ-CNT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  ACCT-OPEN-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  CHARGE-OFF-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  LST-PART-COF-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  BALANCE-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  LOCATION-CODE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "100020"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  CURRENT-DUE-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  TOT-PART-COF-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  USER-DEFINED-7:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  REPOSSESSION-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  BAL-PART-COF-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  LAST-PAYMENT-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  INTEREST-RATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  UD-7-TYPE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-TYPE2:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-TYPE1:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  OVERLIMIT-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  DAYS-DELINQ-CNT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-2:
+    type: "BLANK"
+    sourceField: null
+    value: " "
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  COLL-ASGN-UD-1:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  DLQ-DAYS-CHRG-OFF:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  TOTAL-DUE-AMT:
+    type: "CONSTANT"
+    sourceField: null
+    value: "0"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+  MATURITY-DATE:
+    type: "CONSTANT"
+    sourceField: null
+    value: "00000000"
+    transform: null
+    fallback: null
+    operation: null
+    sourceFields: null
+    delimiter: null
+    conditions: null
+mappings:
+  default:
+    ACCT-NUM:
+      type: "SOURCE_FIELD"
+      sourceField: "ACCT_NUM"
+      value: null
+      transform: null
+      fallback: ""
+      operation: null
+      sourceFields: null
+      delimiter: null
+      conditions: null
+transactionMappings: {}

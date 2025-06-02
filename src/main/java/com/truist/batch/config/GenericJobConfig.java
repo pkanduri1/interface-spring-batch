@@ -12,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +24,13 @@ import com.truist.batch.listener.GenericStepListener;
 import com.truist.batch.mapping.YamlMappingService;
 import com.truist.batch.model.BatchJobProperties;
 import com.truist.batch.model.FileConfig;
-import com.truist.batch.monitor.SimpleExecutionMonitor;
 import com.truist.batch.partition.GenericPartitioner;
+import com.truist.batch.processor.EnhancedGenericProcessor;
 import com.truist.batch.processor.GenericProcessor;
 import com.truist.batch.reader.GenericReader;
+import com.truist.batch.service.FieldTransformationService;
+import com.truist.batch.service.SourceMappingService;
+import com.truist.batch.service.TargetDefinitionService;
 import com.truist.batch.tasklet.LoadBatchDateTasklet;
 import com.truist.batch.writer.GenericWriter;
 
@@ -49,6 +53,9 @@ public class GenericJobConfig {
 	private final LoadBatchDateTasklet loadBatchDateTasklet;
 	//private final SimpleExecutionMonitor executionMonitor;
 	private final DynamicBatchConfigLoader configLoader;
+	private final TargetDefinitionService targetDefinitionService;
+	private final SourceMappingService sourceMappingService;
+	private final FieldTransformationService fieldTransformationService;
 
 	@Bean
 	public Step loadBatchDateStep() {
@@ -120,7 +127,7 @@ public class GenericJobConfig {
 		return new StepBuilder(stepName, jobRepository)
 				.<Map<String, Object>, Map<String, Object>>chunk(config.getChunkSize(), transactionManager)
 				.reader(genericReader(null, null))   // These ARE beans and @StepScope
-				.processor(genericProcessor(null))   // These ARE beans and @StepScope  
+				.processor(genericProcessor(null,false))   // These ARE beans and @StepScope  
 				.writer(genericWriter(null))         // These ARE beans and @StepScope
 				.listener(stepListener)
 				.faultTolerant()
@@ -139,12 +146,28 @@ public class GenericJobConfig {
 			DataSource dataSource) {
 		return new GenericReader(fileConfig, dataSource);
 	}
-
+	
 	@Bean
 	@StepScope
-	public GenericProcessor genericProcessor(@Value("#{stepExecutionContext['fileConfig']}") FileConfig fileConfig) {
-		return new GenericProcessor(fileConfig, mappingService);
+	public ItemProcessor<Map<String, Object>, Map<String, Object>> genericProcessor(
+	    @Value("#{stepExecutionContext['fileConfig']}") FileConfig fileConfig,
+	    @Value("${batch.processor.enhanced:false}") boolean useEnhanced) {
+	    
+	    if (useEnhanced) {
+	        return new EnhancedGenericProcessor(fileConfig, targetDefinitionService, 
+	                                          sourceMappingService, fieldTransformationService);
+	    } else {
+	        return new GenericProcessor(fileConfig, mappingService);
+	    }
 	}
+
+	/*
+	 * @Bean
+	 * 
+	 * @StepScope public GenericProcessor
+	 * genericProcessor(@Value("#{stepExecutionContext['fileConfig']}") FileConfig
+	 * fileConfig) { return new GenericProcessor(fileConfig, mappingService); }
+	 */
 
 	@Bean
 	@StepScope

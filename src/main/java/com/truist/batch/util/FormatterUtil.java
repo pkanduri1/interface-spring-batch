@@ -2,7 +2,10 @@ package com.truist.batch.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.truist.batch.model.DataType;
 import com.truist.batch.model.FieldMapping;
+import com.truist.batch.model.PaddingSide;
+import com.truist.batch.model.TargetField;
 
 public class FormatterUtil {
 
@@ -44,6 +47,120 @@ public class FormatterUtil {
 			return value + padding;
 		}
 	}
+	
+	
+	/**
+     * Format value using TargetField definition
+     */
+    public static String formatValue(String value, TargetField targetField) {
+        if (value == null) value = "";
+        
+        // Apply data type specific formatting
+        if (targetField.getDataType() == DataType.DATE) {
+            if (StringUtils.isBlank(targetField.getFormat())) {
+                throw new IllegalArgumentException("Date format required for field: " + targetField.getName());
+            }
+            value = formatDate(value, targetField.getFormat());
+        } else if (targetField.getDataType() == DataType.NUMERIC) {
+            if (StringUtils.isNotBlank(targetField.getFormat())) {
+                value = formatNumericByPattern(value, targetField.getFormat());
+            }
+        }
+        
+        // Apply padding
+        return applyPadding(value, targetField);
+    }
+    
+    
+    /**
+     * Apply padding using TargetField configuration
+     */
+    public static String applyPadding(String value, TargetField targetField) {
+        if (value == null) value = "";
+        
+        int targetLength = targetField.getLength();
+        
+        // Truncate if too long
+        if (value.length() > targetLength) {
+            return value.substring(0, targetLength);
+        }
+        
+        // Return as-is if already correct length
+        if (value.length() == targetLength) {
+            return value;
+        }
+        
+        // Determine padding character and side
+        String padChar = " "; // default
+        PaddingSide padSide = PaddingSide.RIGHT; // default
+        
+        if (targetField.getPadding() != null) {
+            if (targetField.getPadding().getCharacter() != null) {
+                padChar = targetField.getPadding().getCharacter();
+            }
+            if (targetField.getPadding().getSide() != null) {
+                padSide = targetField.getPadding().getSide();
+            }
+        }
+        
+        // Apply padding
+        int padLength = targetLength - value.length();
+        String padding = padChar.repeat(padLength);
+        
+        return padSide == PaddingSide.LEFT ? padding + value : value + padding;
+    }
+    
+    
+    
+    /**
+     * Simple padding method for direct use
+     */
+    public static String pad(String value, int length, String padSide, String padChar) {
+        if (value == null) value = "";
+        
+        if (value.length() >= length) {
+            return value.substring(0, length);
+        }
+        
+        int padLength = length - value.length();
+        String padding = padChar.repeat(padLength);
+        
+        return "LEFT".equalsIgnoreCase(padSide) ? padding + value : value + padding;
+    }
+
+    /**
+     * Format value with explicit parameters (for enhanced processor)
+     */
+    public static String formatWithTargetField(String value, TargetField targetField, String sourceFormat) {
+        if (value == null) value = "";
+        
+        // Apply source format conversion if needed
+        if (StringUtils.isNotBlank(sourceFormat) && !sourceFormat.equals(targetField.getFormat())) {
+            // Convert from source format to target format
+            if (targetField.getDataType() == DataType.DATE) {
+                value = convertDateFormat(value, sourceFormat, targetField.getFormat());
+            }
+        }
+        
+        return formatValue(value, targetField);
+    }
+    
+    /**
+     * Convert date from one format to another
+     */
+    private static String convertDateFormat(String value, String sourceFormat, String targetFormat) {
+        if (StringUtils.isBlank(value)) return "";
+        
+        try {
+            java.time.format.DateTimeFormatter sourceFormatter = java.time.format.DateTimeFormatter.ofPattern(sourceFormat);
+            java.time.format.DateTimeFormatter targetFormatter = java.time.format.DateTimeFormatter.ofPattern(targetFormat);
+            java.time.LocalDate date = java.time.LocalDate.parse(value, sourceFormatter);
+            return targetFormatter.format(date);
+        } catch (Exception e) {
+            // Fallback to general date formatting
+            return formatDate(value, targetFormat);
+        }
+    }
 
 	/**
 	 * Attempts to parse the inputDate using known common patterns and formats it to

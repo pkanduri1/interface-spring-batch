@@ -1,0 +1,393 @@
+---
+targetName: "p327"
+description: "Generated from CSV mapping file"
+version: "1.0"
+fileType: "FIXED_WIDTH"
+recordLength: 409
+transactionTypes: null
+fields:
+- name: "LOCATION-CODE"
+  position: 1
+  length: 6
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "100020"
+  validation: null
+  description: "Generated from CSV field: LOCATION-CODE"
+- name: "ACCT-NUM"
+  position: 2
+  length: 18
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: ACCT-NUM"
+- name: "CREDIT-LIMIT-AMT"
+  position: 3
+  length: 13
+  dataType: "NUMERIC"
+  format: "9(12)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: CREDIT-LIMIT-AMT"
+- name: "EXPIRATION-DATE"
+  position: 4
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: EXPIRATION-DATE"
+- name: "BALANCE-AMT"
+  position: 5
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: BALANCE-AMT"
+- name: "OVERLIMIT-AMT"
+  position: 6
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: OVERLIMIT-AMT"
+- name: "DISPUTED-AMT"
+  position: 7
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: DISPUTED-AMT"
+- name: "TOTAL-DUE-AMT"
+  position: 8
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: TOTAL-DUE-AMT"
+- name: "CURRENT-DUE-AMT"
+  position: 9
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: CURRENT-DUE-AMT"
+- name: "COLL-ASGN-UD-1"
+  position: 10
+  length: 12
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-1"
+- name: "COLL-ASGN-UD-TYPE1"
+  position: 11
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-TYPE1"
+- name: "COLL-ASGN-UD-FMT-1"
+  position: 12
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-FMT-1"
+- name: "COLL-ASGN-UD-2"
+  position: 13
+  length: 12
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-2"
+- name: "COLL-ASGN-UD-TYPE2"
+  position: 14
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-TYPE2"
+- name: "COLL-ASGN-UD-FMT-2"
+  position: 15
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: COLL-ASGN-UD-FMT-2"
+- name: "TOTAL-DELINQ-AMT"
+  position: 16
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: TOTAL-DELINQ-AMT"
+- name: "CYCLES-DELINQ-CNT"
+  position: 17
+  length: 2
+  dataType: "NUMERIC"
+  format: "9(2)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: CYCLES-DELINQ-CNT"
+- name: "DAYS-DELINQ-CNT"
+  position: 18
+  length: 5
+  dataType: "NUMERIC"
+  format: "9(5)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: DAYS-DELINQ-CNT"
+- name: "LAST-PAYMENT-AMT"
+  position: 19
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: LAST-PAYMENT-AMT"
+- name: "CHARGE-OFF-DATE"
+  position: 20
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: CHARGE-OFF-DATE"
+- name: "DLQ-DAYS-CHRG-OFF"
+  position: 21
+  length: 5
+  dataType: "NUMERIC"
+  format: "9(5)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: DLQ-DAYS-CHRG-OFF"
+- name: "LST-PART-COF-AMT"
+  position: 22
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: LST-PART-COF-AMT"
+- name: "TOT-PART-COF-AMT"
+  position: 23
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: TOT-PART-COF-AMT"
+- name: "BAL-PART-COF-AMT"
+  position: 24
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: BAL-PART-COF-AMT"
+- name: "PART-COF-ACCT-NUM"
+  position: 25
+  length: 30
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: PART-COF-ACCT-NUM"
+- name: "USER-DEFINED-7"
+  position: 26
+  length: 12
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: USER-DEFINED-7"
+- name: "UD-7-TYPE"
+  position: 27
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: UD-7-TYPE"
+- name: "UD-7-FMT"
+  position: 28
+  length: 2
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: UD-7-FMT"
+- name: "ACCT-OPEN-DATE"
+  position: 29
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: ACCT-OPEN-DATE"
+- name: "NEXT-DUE-DATE"
+  position: 30
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: NEXT-DUE-DATE"
+- name: "INTEREST-RATE"
+  position: 31
+  length: 6
+  dataType: "NUMERIC"
+  format: "9(3)V9(3)"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: INTEREST-RATE"
+- name: "OTH-DELINQ-AMT"
+  position: 32
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0000000000000000000"
+  validation: null
+  description: "Generated from CSV field: OTH-DELINQ-AMT"
+- name: "REPO-CHARGES"
+  position: 33
+  length: 19
+  dataType: "NUMERIC"
+  format: "+9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0000000000000000000"
+  validation: null
+  description: "Generated from CSV field: REPO-CHARGES"
+- name: "REPOSSESSION-DATE"
+  position: 34
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: REPOSSESSION-DATE"
+- name: "MATURITY-DATE"
+  position: 35
+  length: 8
+  dataType: "DATE"
+  format: "CCYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: MATURITY-DATE"

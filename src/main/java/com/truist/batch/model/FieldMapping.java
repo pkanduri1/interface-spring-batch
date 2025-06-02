@@ -32,4 +32,10 @@ public class FieldMapping implements Serializable {
     private int targetPosition;
     private String dataType;
     private String defaultValue;
+    
+    
+    // ADD these new fields for the enhanced mapping system
+    private MappingType mappingType;  // NEW: replaces transformationType string
+    private String fallback;          // NEW: fallback value if source is null
+   // private String transform;         // NEW: transformation to apply
 }

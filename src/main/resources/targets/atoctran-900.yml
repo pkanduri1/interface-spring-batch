@@ -1,0 +1,63 @@
+---
+targetName: "atoctran-\"900\""
+description: "Generated from CSV for transaction type \"900\""
+version: "1.0"
+fileType: "FIXED_WIDTH"
+recordLength: 75
+transactionTypes: null
+fields:
+- name: "LOCATION-CODE"
+  position: 1
+  length: 6
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "100020"
+  validation: null
+  description: "Generated from CSV field: LOCATION-CODE-900"
+- name: "ACCT-NUM"
+  position: 2
+  length: 18
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: ""
+  validation: null
+  description: "Generated from CSV field: ACCT-NUM-900"
+- name: "TRANSACTION-TYPE"
+  position: 3
+  length: 3
+  dataType: "STRING"
+  format: ""
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "900"
+  validation: null
+  description: "Generated from CSV field: TRANSACTION-TYPE-900"
+- name: "TRANSACTION-DATE"
+  position: 4
+  length: 8
+  dataType: "DATE"
+  format: "YYYYMMDD"
+  padding:
+    side: "RIGHT"
+    character: " "
+  defaultValue: "00000000"
+  validation: null
+  description: "Generated from CSV field: TRANSACTION-DATE-900"
+- name: "TRANSACTION-AMT"
+  position: 5
+  length: 40
+  dataType: "NUMERIC"
+  format: "9(12)V9(6)"
+  padding:
+    side: "LEFT"
+    character: "0"
+  defaultValue: "0"
+  validation: null
+  description: "Generated from CSV field: TRANSACTION-AMT-900"
