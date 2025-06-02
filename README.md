@@ -30,7 +30,7 @@ It ingests delinquent-account data from multiple source systems, applies field-l
 
 This project provides a generic batch interface to:
 
-- **Integrate** with over 20 source systems (e.g. SHAW, HR, DDA).  
+- **Integrate** with over 20 source systems (e.g. SRC-A, SRC-B, SRC-C).  
 - **Ingest** input data from Oracle staging tables (populated by SQL*Loader), CSV, pipe-delimited, Excel, or fixed-width files.  
 - **Transform** each record using configurable field mappings stored in YAML.  
 - **Write** six standardized fixed-width output files per source system.  
