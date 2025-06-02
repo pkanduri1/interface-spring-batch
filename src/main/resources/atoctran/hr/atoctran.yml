@@ -1,0 +1,333 @@
+---
+fileType: "atoctran"
+transactionType: "200"
+fields:
+  location-code-200:
+    fieldName: "location-code-200"
+    value: null
+    sourceField: "location_code"
+    targetField: "location-code"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 1
+    dataType: "string"
+    defaultValue: "100020"
+  acct-num-200:
+    fieldName: "acct-num-200"
+    value: null
+    sourceField: "acct_num"
+    targetField: "acct-num"
+    from: null
+    length: 18
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: "String"
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 2
+    dataType: "string"
+    defaultValue: " "
+  transaction-type-200:
+    fieldName: "transaction-type-200"
+    value: null
+    sourceField: "transaction_type"
+    targetField: "transaction-type"
+    from: null
+    length: 3
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 3
+    dataType: "string"
+    defaultValue: "200"
+  transaction-date-200:
+    fieldName: "transaction-date-200"
+    value: null
+    sourceField: "batch_date"
+    targetField: "transaction-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "yyyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 4
+    dataType: "date"
+    defaultValue: "00000000"
+  cci-200:
+    fieldName: "cci-200"
+    value: null
+    sourceField: ""
+    targetField: "cci"
+    from: null
+    length: 1
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 5
+    dataType: "string"
+    defaultValue: "0"
+  prort-location-cd-200:
+    fieldName: "prort-location-cd-200"
+    value: null
+    sourceField: "prort_location_cd"
+    targetField: "prort-location-cd"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 6
+    dataType: "string"
+    defaultValue: "200000"
+  portfolio-200:
+    fieldName: "portfolio-200"
+    value: null
+    sourceField: "acct_num"
+    targetField: "portfolio"
+    from: null
+    length: 18
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 7
+    dataType: "string"
+    defaultValue: " "
+  contact-id-200:
+    fieldName: "contact-id-200"
+    value: null
+    sourceField: "acct_num"
+    targetField: "contact-id"
+    from: null
+    length: 24
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 8
+    dataType: "string"
+    defaultValue: " "
+---
+fileType: "atoctran"
+transactionType: "900"
+fields:
+  location-code-900:
+    fieldName: "location-code-900"
+    value: null
+    sourceField: "location_code"
+    targetField: "location-code"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 1
+    dataType: "string"
+    defaultValue: "100020"
+  acct-num-900:
+    fieldName: "acct-num-900"
+    value: null
+    sourceField: "acct_num"
+    targetField: "acct-num"
+    from: null
+    length: 18
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 2
+    dataType: "string"
+    defaultValue: " "
+  transaction-type-900:
+    fieldName: "transaction-type-900"
+    value: null
+    sourceField: "transaction_type"
+    targetField: "transaction-type"
+    from: null
+    length: 3
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 3
+    dataType: "string"
+    defaultValue: "900"
+  transaction-date-900:
+    fieldName: "transaction-date-900"
+    value: null
+    sourceField: "batch_date"
+    targetField: "transaction-date"
+    from: null
+    length: 8
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "yyyymmdd"
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 4
+    dataType: "date"
+    defaultValue: "00000000"
+  transaction-amt-900:
+    fieldName: "transaction-amt-900"
+    value: null
+    sourceField: "net_pay"
+    targetField: "transaction-amt"
+    from: null
+    length: 40
+    pad: ""
+    padChar: "0"
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: "9(12)v9(6)"
+    sourceFormat: null
+    targetFormat: "numeric"
+    transformationType: "source"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: ""
+      elseIfExprs: null
+    targetPosition: 5
+    dataType: "numeric"
+    defaultValue: "0"

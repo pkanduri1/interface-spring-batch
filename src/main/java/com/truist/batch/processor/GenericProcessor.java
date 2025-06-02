@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.stereotype.Component;
 
 import com.truist.batch.mapping.YamlMappingService;
 import com.truist.batch.model.FieldMapping;
@@ -17,6 +16,7 @@ import com.truist.batch.model.FileConfig;
 import com.truist.batch.model.YamlMapping;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Generic ItemProcessor implementation that maps an input record (as a Map of raw values)
@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
  *     which pads, formats, and defaults the values as defined.
  *  5. Builds a LinkedHashMap to preserve the exact field order for downstream writers.
  */
+@Slf4j
 @StepScope
 @RequiredArgsConstructor
 public class GenericProcessor implements ItemProcessor<Map<String, Object>, Map<String, Object>> {
@@ -47,8 +48,9 @@ public class GenericProcessor implements ItemProcessor<Map<String, Object>, Map<
      */
     @Override
     public Map<String, Object> process(Map<String, Object> item) throws Exception {
+    	log.debug("🔍 Input item: {}", item);
         // 1) Extract transactionType from the record, or null if not provided
-        String txnType = (String) item.get("transactionType");
+        String txnType = fileConfig.getTransactionType();
         // 2) Fetch the YAML mapping document matching template and transactionType
         YamlMapping mapping = mappingService.getMapping(fileConfig.getTemplate(), txnType);
         // 3) Extract and sort the FieldMapping entries by targetPosition to enforce output order
@@ -60,6 +62,8 @@ public class GenericProcessor implements ItemProcessor<Map<String, Object>, Map<
         Map<String, Object> output = new LinkedHashMap<>();
         for (FieldMapping m : fields) {
             String value = mappingService.transformField(item, m);
+            log.debug("Field {}: '{}' -> '{}'", m.getTargetField(), 
+                    item.get(m.getSourceField()), value);
             output.put(m.getTargetField(), value != null ? value : m.getDefaultValue());
         }
         return output;

@@ -38,5 +38,5 @@ batch:
 logging:
   level:
     com.truist.batch: DEBUG
-    org.springframework.batch: INFO
+    org.springframework.batch: DEBUG
     org.springframework.boot.context.config: DEBUG

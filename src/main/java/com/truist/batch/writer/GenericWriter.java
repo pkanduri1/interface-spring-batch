@@ -14,6 +14,7 @@ import org.springframework.batch.item.ItemWriter;
 import com.truist.batch.mapping.YamlMappingService;
 import com.truist.batch.model.FieldMapping;
 import com.truist.batch.model.FileConfig;
+import com.truist.batch.model.YamlMapping;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,8 @@ public class GenericWriter implements ItemWriter<Map<String, Object>>, ItemStrea
         List<String> lines = chunk.getItems().stream().map(record -> {
             StringBuilder sb = new StringBuilder();
             for (Map.Entry<String, FieldMapping> entry : mappings) {
-                sb.append(yamlMappingService.transformField(record, entry.getValue()));
-            }
+            	String value = (String) record.get(entry.getValue().getTargetField());
+                sb.append(value != null ? value : "");            }
             return sb.toString();
         }).collect(Collectors.toList());
         
@@ -60,9 +61,27 @@ public class GenericWriter implements ItemWriter<Map<String, Object>>, ItemStrea
                 }
             }
             
-            // Load field mappings for this template
-            mappings = yamlMappingService.loadFieldMappings(fileConfig.getTemplate());
-            log.debug("📋 Loaded {} field mappings for template: {}", mappings.size(), fileConfig.getTemplate());
+            // ✅ FIX: Use transaction-type-aware loading instead of single-document loading
+            String transactionType = fileConfig.getTransactionType();
+            if (transactionType == null || transactionType.isEmpty()) {
+                transactionType = "default";
+            }
+            
+            log.debug("🎯 Loading mapping for template: {}, transactionType: {}", 
+                fileConfig.getTemplate(), transactionType);
+            
+            // Get the specific mapping document for this transaction type
+            YamlMapping yamlMapping = yamlMappingService.getMapping(fileConfig.getTemplate(), transactionType);
+            
+            // Convert to sorted list of entries
+            mappings = yamlMapping.getFields().entrySet().stream()
+                .sorted((e1, e2) -> Integer.compare(
+                    e1.getValue().getTargetPosition(), 
+                    e2.getValue().getTargetPosition()))
+                .collect(Collectors.toList());
+            
+            log.debug("📋 Loaded {} field mappings for template: {}, transactionType: {}", 
+                mappings.size(), fileConfig.getTemplate(), transactionType);
             
             // Initialize delegate writer
             delegate = new FixedWidthFileWriter(yamlMappingService, fileConfig.getTemplate(), outputPath);

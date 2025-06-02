@@ -25,35 +25,42 @@ batch:
                   (select max(batch_date) from ${batch.defaults.stagingSchema}.batch_date_locator)
 
         atoctran:
-          files:
-            # Transaction type A - Simple paths
-            - transactionType: TXN_A
-              target: ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS
-              params:
-                format: jdbc
-                batchDateParam: ${batch.defaults.batchDateParam}
-                batchDateValue: ${batch.defaults.batchDateValue}
-                outputPath: ${batch.defaults.outputBasePath}/hr/atoctran-txn-a-${DATE}.dat
-                fetchSize: "500"
-                pageSize: "1000"
-                query: >
-                  SELECT t.*
-                  FROM ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS t
-                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
-                    AND t.txn_type = 'TXN_A'
+            files:
+              # Transaction type 200 - Full transaction record
+              - transactionType: "200"
+                target: ${batch.defaults.stagingSchema}.hr_master
+                params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/atoctran_200_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                    SELECT 
+                      '100020' as location_code,
+                      acct_num,
+                      '200' as transaction_type,
+                      TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                      '0' as cci,
+                      '200000' as prort_location_cd,
+                      acct_num as port_id,
+                      acct_num as contact_id
+                      FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                      WHERE t.batch_date = (SELECT MAX(batch_date) 
+                      FROM ${batch.defaults.stagingSchema}.batch_date_locator)
 
-            # Transaction type B
-            - transactionType: TXN_B
-              target: ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS
-              params:
-                format: jdbc
-                batchDateParam: ${batch.defaults.batchDateParam}
-                batchDateValue: ${batch.defaults.batchDateValue}
-                outputPath: ${batch.defaults.outputBasePath}/hr/atoctran-txn-b-${DATE}.dat
-                fetchSize: "500"
-                pageSize: "1000"
-                query: >
-                  SELECT t.*
-                  FROM ${batch.defaults.stagingSchema}.STG_hr_TRANSACTIONS t
-                  WHERE t.${batch.defaults.batchDateParam} = :batchDate
-                    AND t.txn_type = 'TXN_B'
+              # Transaction type 900 - Amount-focused transaction record  
+              - transactionType: "900"
+                target: ${batch.defaults.stagingSchema}.hr_master
+                params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/atoctran_900_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                    SELECT  '100020' as location_code, acct_num, '900' as transaction_type,	 TO_CHAR(batch_date, 'YYYYMMDD') as batch_date, net_pay 
+                    FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                    WHERE t.batch_date = (SELECT MAX(batch_date) from ${batch.defaults.stagingSchema}.batch_date_locator)

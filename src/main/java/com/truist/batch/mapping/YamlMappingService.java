@@ -4,7 +4,6 @@ package com.truist.batch.mapping;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,15 @@ import com.truist.batch.model.FieldMapping;
 import com.truist.batch.model.YamlMapping;
 import com.truist.batch.util.FormatterUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Service responsible for loading and caching YAML mappings.
  * Supports multi-document YAML files, providing methods to load mappings,
  * select mappings based on transaction type, and transform fields with
  * padding and formatting according to mapping definitions.
  */
+@Slf4j
 @Service
 public class YamlMappingService {
 
@@ -154,25 +156,38 @@ public class YamlMappingService {
             value = "";
         }
 
-        return FormatterUtil.pad(value, mapping.getLength(), mapping.getPad(), mapping.getPadChar());
+        return FormatterUtil.pad(value, mapping);
     }
 
-   /**
-    * Resolves a single value from the input data row using the source field name.
-    * If the source field is not found in the row or its value is null, the provided default value is returned.
-    *
-    * @param sourceField The name of the field in the input row to retrieve the value from.
-    * @param row The input data row.
-    * @param defaultValue The value to return if the source field is not present or is null.
-    * @return The resolved value as a String, or the defaultValue.
-    */
-   private String resolveValue(String sourceField, Map<String, Object> row, String defaultValue) {
-       if (sourceField == null || sourceField.isEmpty()) {
-           return defaultValue; // No source field specified, return default
-       }
-       Object value = row.get(sourceField);
-       return value != null ? value.toString() : defaultValue;
-   }
+    /**
+     * Resolves a single value from the input data row using case-insensitive field lookup.
+     * If the source field is not found in the row or its value is null, the provided default value is returned.
+     *
+     * @param sourceField The name of the field in the input row to retrieve the value from.
+     * @param row The input data row.
+     * @param defaultValue The value to return if the source field is not present or is null.
+     * @return The resolved value as a String, or the defaultValue.
+     */
+	private String resolveValue(String sourceField, Map<String, Object> row, String defaultValue) {
+		if (sourceField == null || sourceField.isEmpty()) {
+			return defaultValue; // No source field specified, return default
+		}
+		// ✅ CASE-INSENSITIVE LOOKUP
+		Object value = null;
+		// First try exact match (fastest)
+		if (row.containsKey(sourceField)) {
+			value = row.get(sourceField);
+		} else {
+			// Case-insensitive search
+			for (Map.Entry<String, Object> entry : row.entrySet()) {
+				if (sourceField.equalsIgnoreCase(entry.getKey())) {
+					value = entry.getValue();
+					break;
+				}
+			}
+		}
+		return value != null ? value.toString() : defaultValue;
+	}
 
    /**
     * Handles composite field transformation, such as concatenation or summation,
