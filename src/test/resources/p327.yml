@@ -1,0 +1,29 @@
+---
+fileType: "p327"
+transactionType: "default"
+fields:
+  location-code:
+    fieldName: "location-code"
+    value: null
+    sourceField: ""
+    targetField: "LOCATION-CODE"
+    from: null
+    length: 6
+    pad: "right"
+    padChar: " "
+    composite: false
+    sources: null
+    transform: ""
+    delimiter: null
+    format: ""
+    sourceFormat: null
+    targetFormat: null
+    transformationType: "constant"
+    conditions:
+    - ifExpr: ""
+      then: null
+      elseExpr: null
+      elseIfExprs: null
+    targetPosition: 1
+    dataType: "string"
+    defaultValue: "100020"

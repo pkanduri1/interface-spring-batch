@@ -13,31 +13,43 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 
 import com.truist.batch.model.FileConfig;
 import com.truist.batch.reader.JdbcRecordReader;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class JdbcRecordReaderIntegrationTest {
 
     private DataSource dataSource;
 
     @BeforeEach
     void setUpDatabase() {
+        // ✅ FIX: Use unique database URL per test
         JdbcDataSource ds = new JdbcDataSource();
-        ds.setURL("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=Oracle");
+        ds.setURL("jdbc:h2:mem:testdb_" + System.currentTimeMillis() + ";DB_CLOSE_DELAY=-1;MODE=Oracle");
         ds.setUser("sa");
         ds.setPassword("");
         this.dataSource = ds;
 
         JdbcTemplate jdbc = new JdbcTemplate(ds);
+        
+        // ✅ FIX: Drop table first if it exists
+        try {
+            jdbc.execute("DROP TABLE IF EXISTS STG_TEST");
+        } catch (Exception e) {
+            // Ignore - table might not exist
+        }
+        
         // Create a staging table
         jdbc.execute("""
             CREATE TABLE STG_TEST (
               ACCT_NUM VARCHAR(20),
               BATCH_DATE VARCHAR(8),
               TRANSACTION_TYPE VARCHAR(10)
-            );
+            )
         """);
+        
         // Insert sample rows
         jdbc.update(
             "INSERT INTO STG_TEST (ACCT_NUM, BATCH_DATE, TRANSACTION_TYPE) VALUES (?,?,?)",
@@ -60,6 +72,7 @@ public class JdbcRecordReaderIntegrationTest {
         params.put("batchDateValue", "20250101");
         params.put("fetchSize", "10");
         params.put("pageSize", "10");
+        params.put("sortKey", "ACCT_NUM"); // ✅ FIX: Specify sort key explicitly
         // no custom query => paging mode
         fc.setParams(params);
 
@@ -67,14 +80,16 @@ public class JdbcRecordReaderIntegrationTest {
         ExecutionContext ctx = new ExecutionContext();
         reader.open(ctx);
 
-        // First row (DEFAULT txn)
+        // First row (should be "12345" since ACCT_NUM sorts alphabetically)
         Map<String,Object> row1 = reader.read();
         assertNotNull(row1);
         assertEquals("12345", row1.get("ACCT_NUM"));
-        // Second row (TXN_A)
+        
+        // Second row (should be "ABC")
         Map<String,Object> row2 = reader.read();
         assertNotNull(row2);
         assertEquals("ABC", row2.get("ACCT_NUM"));
+        
         // No more rows
         assertNull(reader.read());
         reader.close();

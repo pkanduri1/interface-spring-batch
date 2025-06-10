@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class FieldMapping implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -32,4 +34,12 @@ public class FieldMapping implements Serializable {
     private int targetPosition;
     private String dataType;
     private String defaultValue;
+    
+    
+ // ✅ ADD: Helper method for future DSL support
+    private String expression; // For DSL expressions (future enhancement)
+    
+    public boolean hasDSLExpression() {
+        return expression != null && !expression.trim().isEmpty();
+    }
 }

@@ -2,16 +2,16 @@ package com.truist.batch.writer;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,6 +21,7 @@ import org.springframework.batch.item.ExecutionContext;
 import com.truist.batch.mapping.YamlMappingService;
 import com.truist.batch.model.FieldMapping;
 import com.truist.batch.model.FileConfig;
+import com.truist.batch.model.YamlMapping;
 import com.truist.batch.writer.GenericWriter;
 
 class GenericWriterTest {
@@ -36,6 +37,7 @@ class GenericWriterTest {
         // Configure FileConfig with template and outputPath
         FileConfig fileConfig = new FileConfig();
         fileConfig.setTemplate("testTemplate");
+        fileConfig.setTransactionType("default");
         Map<String, String> params = new HashMap<>();
         params.put("outputPath", outputFile.toString());
         fileConfig.setParams(params);
@@ -43,30 +45,41 @@ class GenericWriterTest {
         // Mock the mappingService
         YamlMappingService mappingService = mock(YamlMappingService.class);
 
-        // Create two FieldMappings
-        FieldMapping m1 = new FieldMapping();
-        m1.setTargetField("F1");
-        FieldMapping m2 = new FieldMapping();
-        m2.setTargetField("F2");
+        // ✅ FIX: Create proper YamlMapping with fields
+        YamlMapping yamlMapping = new YamlMapping();
+        yamlMapping.setFileType("testTemplate");
+        yamlMapping.setTransactionType("default");
+        
+        // Create field mappings
+        Map<String, FieldMapping> fields = new LinkedHashMap<>();
+        
+        FieldMapping f1 = new FieldMapping();
+        f1.setTargetField("F1");
+        f1.setTargetPosition(1);
+        f1.setLength(2);
+        fields.put("f1", f1);
+        
+        FieldMapping f2 = new FieldMapping();
+        f2.setTargetField("F2");
+        f2.setTargetPosition(2);
+        f2.setLength(2);
+        fields.put("f2", f2);
+        
+        yamlMapping.setFields(fields);
 
-        // Return mappings in specific order
-        List<Entry<String, FieldMapping>> mappings = List.of(
-            new AbstractMap.SimpleEntry<>("e1", m1),
-            new AbstractMap.SimpleEntry<>("e2", m2)
-        );
-        when(mappingService.loadFieldMappings("testTemplate")).thenReturn(mappings);
-
-        // Stub transformField to return fixed values
-        when(mappingService.transformField(anyMap(), eq(m1))).thenReturn("X1");
-        when(mappingService.transformField(anyMap(), eq(m2))).thenReturn("Y2");
+        // ✅ FIX: Mock the getMapping call to return our YamlMapping
+        when(mappingService.getMapping("testTemplate", "default")).thenReturn(yamlMapping);
 
         // Instantiate and open writer
         GenericWriter writer = new GenericWriter(mappingService, fileConfig);
         ExecutionContext context = new ExecutionContext();
         writer.open(context);
 
-        // Write a single dummy row
+        // Write a single dummy row with transformed values
         Map<String, Object> row = new HashMap<>();
+        row.put("F1", "X1");  // Already transformed values
+        row.put("F2", "Y2");  // Already transformed values
+        
         writer.write(new Chunk<>(List.of(row)));
         writer.close();
 

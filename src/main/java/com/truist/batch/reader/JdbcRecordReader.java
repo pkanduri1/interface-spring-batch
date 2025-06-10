@@ -1,7 +1,5 @@
 package com.truist.batch.reader;
 
-
-
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -59,7 +57,11 @@ public class JdbcRecordReader implements ItemStreamReader<Map<String,Object>> {
       if (dateParam != null) {
         provider.setWhereClause("WHERE " + dateParam + " = :batchDate");
       }
-      provider.setSortKey("ID");
+      
+      // ✅ FIX: Use ACCT_NUM instead of ID for sorting (more generic)
+      String sortKey = fileConfig.getParams().getOrDefault("sortKey", "ACCT_NUM");
+      provider.setSortKey(sortKey);
+      
       try {
         paging.setQueryProvider(provider.getObject());
       } catch (Exception e) {
