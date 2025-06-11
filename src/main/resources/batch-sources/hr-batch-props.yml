@@ -64,3 +64,139 @@ batch:
                     SELECT  '100020' as location_code, acct_num, '900' as transaction_type,	 TO_CHAR(batch_date, 'YYYYMMDD') as batch_date, net_pay 
                     FROM ${batch.defaults.stagingSchema}.HR_MASTER t
                     WHERE t.batch_date = (SELECT MAX(batch_date) from ${batch.defaults.stagingSchema}.batch_date_locator)
+        tranert:
+           files:
+             # Transaction type 32005 - Specific transaction record
+             - transactionType: "32005"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+             - transactionType: "32010"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+             - transactionType: "32015"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+             - transactionType: "32020"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+             - transactionType: "32025"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+             - transactionType: "32075"
+               target: ${batch.defaults.stagingSchema}.hr_master
+               params:
+                  format: jdbc
+                  batchDateParam: ${batch.defaults.batchDateParam}
+                  batchDateValue: ${batch.defaults.batchDateValue}
+                  outputPath: ${batch.defaults.outputBasePath}/hr/tranert_32005_${DATE}.txt
+                  fetchSize: "500"
+                  pageSize: "1000"
+                  query: >
+                        SELECT 
+                        '100020' as location_code,
+                        acct_num,
+                        '32005' as transaction_type,
+                        TO_CHAR(batch_date, 'YYYYMMDD') as batch_date,
+                        '0' as cci,
+                        '200000' as prort_location_cd,
+                        acct_num as port_id,
+                        acct_num as contact_id
+                        FROM ${batch.defaults.stagingSchema}.HR_MASTER t
+                        WHERE t.batch_date = (SELECT MAX(batch_date) 
+                        FROM ${batch.defaults.stagingSchema}.batch_date_locator)			    
+								

@@ -18,12 +18,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.truist.batch.adapter.DataSourceAdapterRegistry;
 import com.truist.batch.listener.GenericJobListener;
 import com.truist.batch.listener.GenericStepListener;
 import com.truist.batch.mapping.YamlMappingService;
 import com.truist.batch.model.BatchJobProperties;
 import com.truist.batch.model.FileConfig;
-import com.truist.batch.monitor.SimpleExecutionMonitor;
 import com.truist.batch.partition.GenericPartitioner;
 import com.truist.batch.processor.GenericProcessor;
 import com.truist.batch.reader.GenericReader;
@@ -49,6 +49,9 @@ public class GenericJobConfig {
 	private final LoadBatchDateTasklet loadBatchDateTasklet;
 	//private final SimpleExecutionMonitor executionMonitor;
 	private final DynamicBatchConfigLoader configLoader;
+	
+	// ✅ NEW: Inject the adapter registry 6/11/25	
+		private final DataSourceAdapterRegistry adapterRegistry;
 
 	@Bean
 	public Step loadBatchDateStep() {
@@ -119,7 +122,7 @@ public class GenericJobConfig {
 		
 		return new StepBuilder(stepName, jobRepository)
 				.<Map<String, Object>, Map<String, Object>>chunk(config.getChunkSize(), transactionManager)
-				.reader(genericReader(null, null))   // These ARE beans and @StepScope
+				.reader(genericReader(null))   // These ARE beans and @StepScope
 				.processor(genericProcessor(null))   // These ARE beans and @StepScope  
 				.writer(genericWriter(null))         // These ARE beans and @StepScope
 				.listener(stepListener)
@@ -135,9 +138,8 @@ public class GenericJobConfig {
 
 	@Bean
 	@StepScope
-	public GenericReader genericReader(@Value("#{stepExecutionContext['fileConfig']}") FileConfig fileConfig,
-			DataSource dataSource) {
-		return new GenericReader(fileConfig, dataSource);
+	public GenericReader genericReader(@Value("#{stepExecutionContext['fileConfig']}") FileConfig fileConfig) {
+		return new GenericReader(fileConfig, adapterRegistry);
 	}
 
 	@Bean
