@@ -35,6 +35,8 @@ public class DataSourceAdapterRegistry {
 	public DataSourceAdapterRegistry(List<DataSourceAdapter> adapters) {
 		this.allAdapters = adapters;
 
+		System.out
+				.println("🚀 FIXED DataSourceAdapterRegistry constructor called with " + adapters.size() + " adapters");
 		log.info("🔌 Discovered {} data source adapters:", adapters.size());
 
 		// Build format-to-adapter mapping, respecting priority
@@ -45,6 +47,8 @@ public class DataSourceAdapterRegistry {
 			registerAdapterFormats(adapter);
 		}
 
+		System.out.println("🎯 FIXED Adapter registry initialized with " + adaptersByFormat.size()
+				+ " format mappings: " + adaptersByFormat.keySet());
 		log.info("🎯 Adapter registry initialized with {} format mappings", adaptersByFormat.size());
 	}
 
@@ -121,26 +125,40 @@ public class DataSourceAdapterRegistry {
 	 * conflicts.
 	 */
 	private void registerAdapterFormats(DataSourceAdapter adapter) {
-		// Test common format identifiers to see what this adapter supports
-		String[] commonFormats = { "jdbc", "rest", "api", "kafka", "s3", "csv", "excel", "json", "xml" };
+		// ✅ FIXED: Extended format list to include 'database', 'sql', etc.
+		String[] commonFormats = { "jdbc", "database", "sql", // Database formats - FIXED: added 'database'
+				"rest", "api", "http", "https", // REST API formats
+				"kafka", "stream", // Streaming formats
+				"s3", "aws", // Cloud storage formats
+				"csv", "excel", "json", "xml" // File formats
+		};
+
+		System.out.println("🔍 FIXED Testing adapter " + adapter.getAdapterName() + " against " + commonFormats.length
+				+ " formats");
 
 		for (String format : commonFormats) {
-			if (adapter.supports(format)) {
+			boolean supportsFormat = adapter.supports(format);
+			System.out.println("  " + adapter.getAdapterName() + " supports '" + format + "': " + supportsFormat);
+
+			if (supportsFormat) {
 				DataSourceAdapter existing = adaptersByFormat.get(format);
 
 				if (existing == null || adapter.getPriority() > existing.getPriority()) {
 					adaptersByFormat.put(format, adapter);
-					log.debug("  ✅ Registered {} for format '{}'", adapter.getAdapterName(), format);
+					System.out.println(
+							"  ✅ FIXED Registered " + adapter.getAdapterName() + " for format '" + format + "'");
 
 					if (existing != null) {
 						log.info("  🔄 {} superseded {} for format '{}' (priority {} > {})", adapter.getAdapterName(),
 								existing.getAdapterName(), format, adapter.getPriority(), existing.getPriority());
 					}
 				} else {
-					log.debug("  ⏭️  Skipped {} for format '{}' (lower priority than {})", adapter.getAdapterName(),
-							format, existing.getAdapterName());
+					System.out.println("  ⏭️  FIXED Skipped " + adapter.getAdapterName() + " for format '" + format
+							+ "' (lower priority than " + existing.getAdapterName() + ")");
 				}
 			}
 		}
+
+		System.out.println("🎯 FIXED Adapter " + adapter.getAdapterName() + " registration complete");
 	}
 }
