@@ -15,7 +15,7 @@ CREATE TABLE batch_configurations (
     modified_by VARCHAR(50),
     modified_date TIMESTAMP,
     version INTEGER DEFAULT 1,
-    enabled CHAR(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
+    enabled VARCHAR2(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
     UNIQUE(source_system, job_name, transaction_type)
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE source_systems (
     type VARCHAR(20) NOT NULL CHECK (type IN ('ORACLE', 'SQLSERVER', 'FILE', 'API')),
     description VARCHAR(500),
     connection_string VARCHAR(1000),
-    enabled CHAR(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
+    enabled VARCHAR2(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     job_count INTEGER DEFAULT 0
 );
@@ -53,7 +53,7 @@ CREATE TABLE job_definitions (
     input_path VARCHAR(1000),
     output_path VARCHAR(1000),
     query_sql CLOB,
-    enabled CHAR(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
+    enabled VARCHAR2(1) DEFAULT 'Y' CHECK (enabled IN ('Y', 'N')),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     transaction_types VARCHAR(200), -- Comma-separated: "200,300,900"
     FOREIGN KEY (source_system_id) REFERENCES source_systems(id),

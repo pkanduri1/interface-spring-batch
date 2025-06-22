@@ -13,12 +13,12 @@ CREATE TABLE field_templates (
     format VARCHAR(50),
     required CHAR(1) DEFAULT 'N',
     description VARCHAR(500),
-    created_by VARCHAR(50) NOT NULL,
+    created_by VARCHAR2(50) NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_by VARCHAR(50),
     modified_date TIMESTAMP,
     version INTEGER DEFAULT 1,
-    enabled CHAR(1) DEFAULT 'Y',
+    enabled VARCHAR2(1) DEFAULT 'Y',
     PRIMARY KEY (file_type, transaction_type, field_name)
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE file_type_templates (
     modified_by VARCHAR(50),
     modified_date TIMESTAMP,
     version INTEGER DEFAULT 1,
-    enabled CHAR(1) DEFAULT 'Y'
+    enabled VARCHAR2(1) DEFAULT 'Y'
 );
 
 -- Create indexes for performance
