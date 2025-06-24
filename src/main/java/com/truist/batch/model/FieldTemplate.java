@@ -1,5 +1,7 @@
 package com.truist.batch.model;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,10 @@ public class FieldTemplate {
     private String description;
     private Integer version;
     private String enabled;
+    private String createdBy;
+    private LocalDateTime createdDate;
+    private String modifiedBy;
+    private String modifiedDate;
+    private String lastModifiedBy;
+    private LocalDateTime lastModifiedDate;
 }

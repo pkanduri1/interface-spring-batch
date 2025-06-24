@@ -36,6 +36,33 @@ CREATE TABLE file_type_templates (
     enabled VARCHAR2(1) DEFAULT 'Y'
 );
 
+
+
+CREATE TABLE field_templates (
+    id NUMBER PRIMARY KEY,
+    file_type VARCHAR2(50) NOT NULL,
+    transaction_type VARCHAR2(50) DEFAULT 'default',
+    field_name VARCHAR2(100) NOT NULL,
+    target_position NUMBER NOT NULL,
+    length NUMBER NOT NULL,
+    data_type VARCHAR2(50) NOT NULL,
+    format VARCHAR2(100),
+    required CHAR(1) DEFAULT 'N',
+    description VARCHAR2(500),
+    enabled CHAR(1) DEFAULT 'Y',
+    created_by VARCHAR2(100),
+    created_date TIMESTAMP,
+    last_modified_by VARCHAR2(100),
+    last_modified_date TIMESTAMP
+);
+
+-- Unique constraints
+ALTER TABLE field_templates ADD CONSTRAINT uk_field_templates_name 
+    UNIQUE (file_type, transaction_type, field_name);
+    
+ALTER TABLE field_templates ADD CONSTRAINT uk_field_templates_position 
+    UNIQUE (file_type, transaction_type, target_position);
+
 -- Create indexes for performance
 CREATE INDEX idx_field_templates_filetype_txntype ON field_templates(file_type, transaction_type);
 CREATE INDEX idx_field_templates_enabled ON field_templates(enabled);

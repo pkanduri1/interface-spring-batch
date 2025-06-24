@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/ui")
+@RequestMapping("/api/config")
 @CrossOrigin(origins = "http://localhost:3000") // Your React dev server
 public class ConfigurationController {
 

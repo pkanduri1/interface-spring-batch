@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.truist.batch.model.FieldMappingConfig;
 import com.truist.batch.model.FieldTemplate;
 import com.truist.batch.model.FileTypeTemplate;
 import com.truist.batch.model.TemplateImportRequest;
@@ -39,7 +40,7 @@ public interface TemplateService {
     ValidationResult validateFieldTemplate(FieldTemplate field);
     
     // Configuration integration
-    com.truist.batch.model.FieldMappingConfig createConfigurationFromTemplate(
+    FieldMappingConfig createConfigurationFromTemplate(
         String fileType, String transactionType, String sourceSystem, String jobName, String createdBy);
 }
 

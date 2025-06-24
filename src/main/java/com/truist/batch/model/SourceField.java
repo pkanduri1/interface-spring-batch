@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SourceField {
     private String name;
-    private String type; // "STRING", "NUMBER", "DATE", "BOOLEAN"
+    private String dataType; // "STRING", "NUMBER", "DATE", "BOOLEAN"
     private String description;
     private boolean nullable;
     private Integer maxLength;
