@@ -2,10 +2,13 @@ package com.truist.batch.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 //Apache POI imports for Excel processing
@@ -24,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.truist.batch.entity.FieldTemplateEntity;
-import com.truist.batch.entity.FieldTemplateId;
 import com.truist.batch.entity.FileTypeTemplateEntity;
 import com.truist.batch.model.FieldMapping;
 import com.truist.batch.model.FieldMappingConfig;
@@ -134,28 +136,9 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		}
 
-		return new ValidationResult(errors.isEmpty(), errors, warnings);
+		return new ValidationResult(errors.isEmpty(), errors);
 	}
 
-	@Override
-	public ValidationResult validateFieldTemplate(FieldTemplate field) {
-		List<String> errors = new ArrayList<>();
-		List<String> warnings = new ArrayList<>();
-
-		if (field.getFieldName() == null || field.getFieldName().trim().isEmpty()) {
-			errors.add("Field name is required");
-		}
-
-		if (field.getTargetPosition() == null || field.getTargetPosition() < 1) {
-			errors.add("Position must be greater than 0");
-		}
-
-		if (field.getLength() == null || field.getLength() < 1) {
-			errors.add("Length must be greater than 0");
-		}
-
-		return new ValidationResult(errors.isEmpty(), errors, warnings);
-	}
 
 	// Helper methods
 	private FileTypeTemplate convertToFileTypeTemplate(FileTypeTemplateEntity entity) {
@@ -180,7 +163,7 @@ public class TemplateServiceImpl implements TemplateService {
 		entity.setCreatedDate(LocalDateTime.now());
 
 		FileTypeTemplateEntity saved = fileTypeTemplateRepository.save(entity);
-		auditService.logCreate(saved.getFileType(), template, createdBy, "File type template created");
+		//auditService.logCreate(saved.getFileType(), template, createdBy, "File type template created");
 		return convertToFileTypeTemplate(saved);
 	}
 
@@ -229,7 +212,7 @@ public class TemplateServiceImpl implements TemplateService {
 		FieldTemplateEntity entity = new FieldTemplateEntity();
 		BeanUtils.copyProperties(template, entity);
 		entity.setCreatedBy(createdBy);
-		entity.setCreatedDate(LocalDateTime.now());
+		entity.setCreatedDate(new Date());
 
 		FieldTemplateEntity saved = fieldTemplateRepository.save(entity);
 		String auditKey = template.getFileType() + "/" + template.getTransactionType() + "/" + template.getFieldName();
@@ -250,7 +233,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 			BeanUtils.copyProperties(template, entity);
 			entity.setModifiedBy(modifiedBy);
-			entity.setModifiedDate(LocalDateTime.now());
+			entity.setModifiedDate(new Date());
 
 			FieldTemplateEntity saved = fieldTemplateRepository.save(entity);
 			String auditKey = template.getFileType() + "/" + template.getTransactionType() + "/"
@@ -261,19 +244,6 @@ public class TemplateServiceImpl implements TemplateService {
 		throw new RuntimeException("Field template not found");
 	}
 
-	@Override
-	public void deleteFieldTemplate(String fileType, String transactionType, String fieldName, String deletedBy) {
-		log.info("Deleting field template: {}/{}/{}", fileType, transactionType, fieldName);
-		Optional<FieldTemplateEntity> existing = fieldTemplateRepository
-				.findByFileTypeAndTransactionTypeAndFieldName(fileType, transactionType, fieldName);
-
-		if (existing.isPresent()) {
-			FieldTemplate template = convertToFieldTemplate(existing.get());
-			fieldTemplateRepository.deleteById(new FieldTemplateId(fileType, transactionType, fieldName));
-			String auditKey = fileType + "/" + transactionType + "/" + fieldName;
-			auditService.logDelete(auditKey, template, deletedBy, "Field template deleted");
-		}
-	}
 
 	@Override
 	public TemplateImportResult importFromJson(TemplateImportRequest request) {
@@ -600,14 +570,14 @@ public class TemplateServiceImpl implements TemplateService {
 		// Check if sheet has data
 		if (sheet.getLastRowNum() < 1) {
 			errors.add("Excel file must contain at least one data row (plus header row)");
-			return new ValidationResult(false, errors, warnings);
+			return new ValidationResult(false, errors);
 		}
 
 		// Validate header row
 		Row headerRow = sheet.getRow(0);
 		if (headerRow == null) {
 			errors.add("Excel file must have a header row");
-			return new ValidationResult(false, errors, warnings);
+			return new ValidationResult();
 		}
 
 		// Expected column headers for template import
@@ -628,7 +598,7 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		}
 
-		return new ValidationResult(errors.isEmpty(), errors, warnings);
+		return new ValidationResult(errors.isEmpty(), errors, warnings, warnings, warnings, warnings, warnings);
 	}
 
 	/**
@@ -748,9 +718,9 @@ public class TemplateServiceImpl implements TemplateService {
 
 		// Set audit fields
 		entity.setCreatedBy(createdBy);
-		entity.setCreatedDate(now);
+		entity.setCreatedDate(new Date());
 		entity.setModifiedBy(createdBy);
-		entity.setModifiedDate(now);
+		entity.setModifiedDate(new Date());
 		entity.setVersion(1);
 
 		return entity;
@@ -793,6 +763,346 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		}
 		return true;
+	}
+	
+	// Add these methods to the TemplateServiceImpl class
+
+	@Override
+	@Transactional
+	public FieldTemplate createFieldTemplate(FieldTemplate fieldTemplate) {
+	    try {
+	        // Validate the field template
+	        ValidationResult validation = validateFieldTemplate(fieldTemplate);
+	        if (!validation.isValid()) {
+	            throw new IllegalArgumentException("Invalid field template: " + String.join(", ", validation.getErrors()));
+	        }
+	        
+	        // Check for duplicates
+	        Optional<FieldTemplateEntity> existing = fieldTemplateRepository
+	            .findByFileTypeAndTransactionTypeAndFieldName(
+	                fieldTemplate.getFileType(), 
+	                fieldTemplate.getTransactionType(), 
+	                fieldTemplate.getFieldName());
+	        
+	        if (existing.isPresent()) {
+	            throw new IllegalArgumentException("Field template already exists: " + fieldTemplate.getFieldName());
+	        }
+	        
+	        // Check for position conflicts
+	        Optional<FieldTemplateEntity> positionConflict = fieldTemplateRepository
+	            .findByFileTypeAndTransactionTypeAndTargetPosition(
+	                fieldTemplate.getFileType(), 
+	                fieldTemplate.getTransactionType(), 
+	                fieldTemplate.getTargetPosition());
+	        
+	        if (positionConflict.isPresent()) {
+	            throw new IllegalArgumentException("Position already occupied: " + fieldTemplate.getTargetPosition());
+	        }
+	        
+	        // Create entity
+	        FieldTemplateEntity entity = convertToFieldTemplateEntity(fieldTemplate);
+	        entity.setCreatedDate(new Date());
+	        entity.setEnabled("Y");
+	        
+	        // Save and audit
+	        FieldTemplateEntity saved = fieldTemplateRepository.save(entity);
+	      //  auditService.logCreate("FIELD_TEMPLATE", saved.getFieldName(), fieldTemplate.getCreatedBy());
+	        
+	        log.info("Created field template: {} for {}/{}", 
+	            fieldTemplate.getFieldName(), fieldTemplate.getFileType(), fieldTemplate.getTransactionType());
+	        
+	        return convertToFieldTemplate(saved);
+	    } catch (Exception e) {
+	        log.error("Error creating field template: {}", fieldTemplate.getFieldName(), e);
+	        throw new RuntimeException("Failed to create field template", e);
+	    }
+	}
+
+	@Override
+	@Transactional
+	public FieldTemplate updateFieldTemplate(FieldTemplate fieldTemplate) {
+	    try {
+	        // Find existing field
+	        Optional<FieldTemplateEntity> existing = fieldTemplateRepository
+	            .findByFileTypeAndTransactionTypeAndFieldName(
+	                fieldTemplate.getFileType(), 
+	                fieldTemplate.getTransactionType(), 
+	                fieldTemplate.getFieldName());
+	        
+	        if (existing.isEmpty()) {
+	            throw new IllegalArgumentException("Field template not found: " + fieldTemplate.getFieldName());
+	        }
+	        
+	        FieldTemplateEntity entity = existing.get();
+	        String oldValue = entity.toString();
+	        
+	        // Update fields
+	        entity.setTargetPosition(fieldTemplate.getTargetPosition());
+	        entity.setLength(fieldTemplate.getLength());
+	        entity.setDataType(fieldTemplate.getDataType());
+	        entity.setFormat(fieldTemplate.getFormat());
+	        entity.setRequired(fieldTemplate.getRequired());
+	        entity.setDescription(fieldTemplate.getDescription());
+	        entity.setEnabled(fieldTemplate.getEnabled());
+	        entity.setModifiedBy(fieldTemplate.getModifiedBy());
+	        entity.setModifiedDate(new Date());
+	        entity.setVersion(entity.getVersion() + 1);
+	        
+	        // Save and audit
+	        FieldTemplateEntity saved = fieldTemplateRepository.save(entity);
+	        auditService.logUpdate("FIELD_TEMPLATE", saved.getFieldName(), 
+	                              oldValue, saved.toString(), fieldTemplate.getModifiedBy());
+	        
+	        log.info("Updated field template: {} for {}/{}", 
+	            fieldTemplate.getFieldName(), fieldTemplate.getFileType(), fieldTemplate.getTransactionType());
+	        
+	        return convertToFieldTemplate(saved);
+	    } catch (Exception e) {
+	        log.error("Error updating field template: {}", fieldTemplate.getFieldName(), e);
+	        throw new RuntimeException("Failed to update field template", e);
+	    }
+	}
+
+	@Override
+	@Transactional
+	public void deleteFieldTemplate(String fileType, String transactionType, String fieldName, String deletedBy) {
+	    try {
+	        Optional<FieldTemplateEntity> existing = fieldTemplateRepository
+	            .findByFileTypeAndTransactionTypeAndFieldName(fileType, transactionType, fieldName);
+	        
+	        if (existing.isEmpty()) {
+	            throw new IllegalArgumentException("Field template not found: " + fieldName);
+	        }
+	        
+	        FieldTemplateEntity entity = existing.get();
+	        String oldValue = entity.toString();
+	        
+	        // Soft delete - mark as disabled
+	        entity.setEnabled("N");
+	        entity.setModifiedBy(deletedBy);
+	        entity.setModifiedDate(new Date());
+	        entity.setVersion(entity.getVersion() + 1);
+	        
+	        fieldTemplateRepository.save(entity);
+	        auditService.logDelete("FIELD_TEMPLATE", fieldName, oldValue, deletedBy);
+	        
+	        log.info("Deleted field template: {} for {}/{}", fieldName, fileType, transactionType);
+	    } catch (Exception e) {
+	        log.error("Error deleting field template: {}", fieldName, e);
+	        throw new RuntimeException("Failed to delete field template", e);
+	    }
+	}
+
+	@Override
+	@Transactional
+	public FieldTemplate duplicateFieldTemplate(String fileType, String transactionType, String fieldName, 
+	                                           String newFieldName, Integer newPosition, String createdBy) {
+	    try {
+	        // Find original field
+	        Optional<FieldTemplateEntity> original = fieldTemplateRepository
+	            .findByFileTypeAndTransactionTypeAndFieldName(fileType, transactionType, fieldName);
+	        
+	        if (original.isEmpty()) {
+	            throw new IllegalArgumentException("Original field template not found: " + fieldName);
+	        }
+	        
+	        // Create duplicate
+	        FieldTemplateEntity originalEntity = original.get();
+	        FieldTemplate duplicateTemplate = convertToFieldTemplate(originalEntity);
+	        duplicateTemplate.setFieldName(newFieldName);
+	        duplicateTemplate.setTargetPosition(newPosition);
+	        duplicateTemplate.setCreatedBy(createdBy);
+	        
+	        return createFieldTemplate(duplicateTemplate);
+	    } catch (Exception e) {
+	        log.error("Error duplicating field template: {} to {}", fieldName, newFieldName, e);
+	        throw new RuntimeException("Failed to duplicate field template", e);
+	    }
+	}
+
+	@Override
+	@Transactional
+	public List<FieldTemplate> bulkUpdateFieldTemplates(String fileType, List<FieldTemplate> fields) {
+	    try {
+	        List<FieldTemplate> results = new ArrayList<>();
+	        
+	        for (FieldTemplate field : fields) {
+	            field.setFileType(fileType);
+	            
+	            // Check if field exists
+	            Optional<FieldTemplateEntity> existing = fieldTemplateRepository
+	                .findByFileTypeAndTransactionTypeAndFieldName(
+	                    fileType, field.getTransactionType(), field.getFieldName());
+	            
+	            if (existing.isPresent()) {
+	                // Update existing
+	                results.add(updateFieldTemplate(field));
+	            } else {
+	                // Create new
+	                results.add(createFieldTemplate(field));
+	            }
+	        }
+	        
+	        log.info("Bulk updated {} field templates for fileType: {}", fields.size(), fileType);
+	        return results;
+	    } catch (Exception e) {
+	        log.error("Error bulk updating field templates for fileType: {}", fileType, e);
+	        throw new RuntimeException("Failed to bulk update field templates", e);
+	    }
+	}
+
+	@Override
+	@Transactional
+	public List<FieldTemplate> reorderFieldTemplates(String fileType, List<Map<String, Object>> fieldOrders, String modifiedBy) {
+	    try {
+	        List<FieldTemplate> results = new ArrayList<>();
+	        
+	        for (Map<String, Object> order : fieldOrders) {
+	            String fieldName = (String) order.get("fieldName");
+	            Integer newPosition = (Integer) order.get("newPosition");
+	            String transactionType = (String) order.getOrDefault("transactionType", "default");
+	            
+	            Optional<FieldTemplateEntity> existing = fieldTemplateRepository
+	                .findByFileTypeAndTransactionTypeAndFieldName(fileType, transactionType, fieldName);
+	            
+	            if (existing.isPresent()) {
+	                FieldTemplateEntity entity = existing.get();
+	                entity.setTargetPosition(newPosition);
+	                entity.setModifiedBy(modifiedBy);
+	                entity.setModifiedDate(new Date());
+	                entity.setVersion(entity.getVersion() + 1);
+	                
+	                FieldTemplateEntity saved = fieldTemplateRepository.save(entity);
+	                results.add(convertToFieldTemplate(saved));
+	            }
+	        }
+	        
+	        log.info("Reordered {} field templates for fileType: {}", fieldOrders.size(), fileType);
+	        return results;
+	    } catch (Exception e) {
+	        log.error("Error reordering field templates for fileType: {}", fileType, e);
+	        throw new RuntimeException("Failed to reorder field templates", e);
+	    }
+	}
+
+	@Override
+	public ValidationResult validateFieldTemplate(FieldTemplate fieldTemplate) {
+	    ValidationResult result = new ValidationResult();
+	    result.setValid(true);
+	    
+	    List<String> errors = new ArrayList<>();
+	    List<String> warnings = new ArrayList<>();
+	    
+	    // Required field validation
+	    if (fieldTemplate.getFieldName() == null || fieldTemplate.getFieldName().trim().isEmpty()) {
+	        errors.add("Field name is required");
+	    }
+	    
+	    if (fieldTemplate.getFileType() == null || fieldTemplate.getFileType().trim().isEmpty()) {
+	        errors.add("File type is required");
+	    }
+	    
+	    if (fieldTemplate.getTransactionType() == null || fieldTemplate.getTransactionType().trim().isEmpty()) {
+	        errors.add("Transaction type is required");
+	    }
+	    
+	    if (fieldTemplate.getTargetPosition() == null || fieldTemplate.getTargetPosition() <= 0) {
+	        errors.add("Target position must be greater than 0");
+	    }
+	    
+	    if (fieldTemplate.getLength() == null || fieldTemplate.getLength() <= 0) {
+	        errors.add("Length must be greater than 0");
+	    }
+	    
+	    if (fieldTemplate.getDataType() == null || fieldTemplate.getDataType().trim().isEmpty()) {
+	        errors.add("Data type is required");
+	    }
+	    
+	    // Business logic validation
+	    if (fieldTemplate.getFieldName() != null && fieldTemplate.getFieldName().length() > 50) {
+	        errors.add("Field name cannot exceed 50 characters");
+	    }
+	    
+	    if (fieldTemplate.getTargetPosition() != null && fieldTemplate.getTargetPosition() > 10000) {
+	        warnings.add("Position seems unusually high: " + fieldTemplate.getTargetPosition());
+	    }
+	    
+	    if (fieldTemplate.getLength() != null && fieldTemplate.getLength() > 1000) {
+	        warnings.add("Field length seems unusually large: " + fieldTemplate.getLength());
+	    }
+	    
+	    result.setErrors(errors);
+	    result.setWarnings(warnings);
+	    result.setValid(errors.isEmpty());
+	    
+	    return result;
+	}
+
+	@Override
+	public ValidationResult validateFieldTemplates(String fileType, List<FieldTemplate> fields) {
+	    ValidationResult result = new ValidationResult();
+	    result.setValid(true);
+	    
+	    List<String> errors = new ArrayList<>();
+	    List<String> warnings = new ArrayList<>();
+	    
+	    // Individual field validation
+	    for (FieldTemplate field : fields) {
+	        ValidationResult fieldResult = validateFieldTemplate(field);
+	        if (!fieldResult.isValid()) {
+	            errors.addAll(fieldResult.getErrors().stream()
+	                .map(error -> field.getFieldName() + ": " + error)
+	                .toList());
+	        }
+	        warnings.addAll(fieldResult.getWarnings().stream()
+	            .map(warning -> field.getFieldName() + ": " + warning)
+	            .toList());
+	    }
+	    
+	    // Cross-field validation
+	    Set<String> fieldNames = new HashSet<>();
+	    Set<Integer> positions = new HashSet<>();
+	    
+	    for (FieldTemplate field : fields) {
+	        // Check for duplicate field names
+	        if (!fieldNames.add(field.getFieldName())) {
+	            errors.add("Duplicate field name: " + field.getFieldName());
+	        }
+	        
+	        // Check for duplicate positions within same transaction type
+	        String positionKey = field.getTransactionType() + "-" + field.getTargetPosition();
+	        if (!positions.add(field.getTargetPosition())) {
+	            errors.add("Duplicate position " + field.getTargetPosition() + 
+	                      " in transaction type " + field.getTransactionType());
+	        }
+	    }
+	    
+	    result.setErrors(errors);
+	    result.setWarnings(warnings);
+	    result.setValid(errors.isEmpty());
+	    
+	    return result;
+	}
+
+	/**
+	 * Helper method to convert FieldTemplate to FieldTemplateEntity
+	 */
+	private FieldTemplateEntity convertToFieldTemplateEntity(FieldTemplate fieldTemplate) {
+	    FieldTemplateEntity entity = new FieldTemplateEntity();
+	    entity.setFileType(fieldTemplate.getFileType());
+	    entity.setTransactionType(fieldTemplate.getTransactionType());
+	    entity.setFieldName(fieldTemplate.getFieldName());
+	    entity.setTargetPosition(fieldTemplate.getTargetPosition());
+	    entity.setLength(fieldTemplate.getLength());
+	    entity.setDataType(fieldTemplate.getDataType());
+	    entity.setFormat(fieldTemplate.getFormat());
+	    entity.setRequired(fieldTemplate.getRequired());
+	    entity.setDescription(fieldTemplate.getDescription());
+	    entity.setEnabled(fieldTemplate.getEnabled() != null ? fieldTemplate.getEnabled() : "Y");
+	    entity.setCreatedBy(fieldTemplate.getCreatedBy());
+	    entity.setModifiedBy(fieldTemplate.getModifiedBy());
+	    entity.setVersion(1);
+	    return entity;
 	}
 
 }

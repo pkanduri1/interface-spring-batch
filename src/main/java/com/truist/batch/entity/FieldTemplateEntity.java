@@ -1,57 +1,48 @@
 package com.truist.batch.entity;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "field_templates")
-@IdClass(FieldTemplateId.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
+@IdClass(FieldTemplateId.class)
 public class FieldTemplateEntity {
     
-    // PRIMARY KEY FIELDS - Must match database exactly
     @Id
     @Column(name = "file_type", length = 10, nullable = false)
-    private String fileType;  // 'p327'
+    private String fileType;
     
-    @Id  
+    @Id
     @Column(name = "transaction_type", length = 10, nullable = false)
-    private String transactionType;  // 'default', '200', '900'
+    private String transactionType;
     
     @Id
     @Column(name = "field_name", length = 50, nullable = false)
-    private String fieldName;  // 'ACCT-NUM'
+    private String fieldName;
     
-    // NON-KEY FIELDS
     @Column(name = "target_position", nullable = false)
-    private Integer targetPosition;  // 1, 2, 3, 4... (sequential)
+    private Integer targetPosition;
     
     @Column(name = "length")
-    private Integer length;  // 18
+    private Integer length;
     
     @Column(name = "data_type", length = 20)
-    private String dataType;  // 'String'
+    private String dataType;
     
     @Column(name = "format", length = 50)
-    private String format;  // '+9(12)V9(6)'
+    private String format;
     
-    @Column(name = "required", columnDefinition = "CHAR(1)", nullable = false)
-    private String required = "N";  // 'Y'/'N'
+    @Column(name = "required", length = 1)
+    private String required = "N";
     
     @Column(name = "description", length = 500)
     private String description;
@@ -59,25 +50,27 @@ public class FieldTemplateEntity {
     @Column(name = "created_by", length = 50, nullable = false)
     private String createdBy;
     
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Date createdDate;
     
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
     
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_date")
-    private LocalDateTime modifiedDate;
+    private Date modifiedDate;
     
     @Column(name = "version")
     private Integer version = 1;
     
-    @Column(name = "enabled", columnDefinition = "CHAR(1)", nullable = false)
+    @Column(name = "enabled", length = 1)
     private String enabled = "Y";
     
     @PrePersist
     protected void onCreate() {
         if (createdDate == null) {
-            createdDate = LocalDateTime.now();
+            createdDate = new Date();
         }
         if (version == null) {
             version = 1;
@@ -92,9 +85,9 @@ public class FieldTemplateEntity {
     
     @PreUpdate
     protected void onUpdate() {
-        modifiedDate = LocalDateTime.now();
+        modifiedDate = new Date();
         if (version != null) {
-            version++;
+            version = version + 1;
         }
     }
 }

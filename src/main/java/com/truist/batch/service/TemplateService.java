@@ -1,6 +1,7 @@
 package com.truist.batch.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -42,5 +43,25 @@ public interface TemplateService {
     // Configuration integration
     FieldMappingConfig createConfigurationFromTemplate(
         String fileType, String transactionType, String sourceSystem, String jobName, String createdBy);
+ // Add these methods to the TemplateService interface
+
+    /**
+     * Field template CRUD operations
+     */
+    FieldTemplate createFieldTemplate(FieldTemplate fieldTemplate);
+    FieldTemplate updateFieldTemplate(FieldTemplate fieldTemplate);
+    FieldTemplate duplicateFieldTemplate(String fileType, String transactionType, String fieldName, 
+                                        String newFieldName, Integer newPosition, String createdBy);
+
+    /**
+     * Bulk operations
+     */
+    List<FieldTemplate> bulkUpdateFieldTemplates(String fileType, List<FieldTemplate> fields);
+    List<FieldTemplate> reorderFieldTemplates(String fileType, List<Map<String, Object>> fieldOrders, String modifiedBy);
+
+    /**
+     * Validation
+     */
+    ValidationResult validateFieldTemplates(String fileType, List<FieldTemplate> fields);
 }
 

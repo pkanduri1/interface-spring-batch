@@ -133,7 +133,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			errors.add("No field mappings defined");
 		}
 
-		return new ValidationResult(errors.isEmpty(), errors, warnings);
+		return new ValidationResult(errors.isEmpty(), errors);
 	}
 
 	@Override
