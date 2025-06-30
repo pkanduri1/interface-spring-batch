@@ -24,6 +24,8 @@ import com.truist.batch.model.FieldTemplate;
 import com.truist.batch.model.FileTypeTemplate;
 import com.truist.batch.model.TemplateImportRequest;
 import com.truist.batch.model.TemplateImportResult;
+import com.truist.batch.model.TemplateMetadata;
+import com.truist.batch.model.TemplateToConfigurationResult;
 import com.truist.batch.model.ValidationResult;
 import com.truist.batch.service.TemplateService;
 
@@ -237,7 +239,14 @@ public class TemplateController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
+
+
+
     
+ // Add these methods to the existing TemplateController.java
+
     /**
      * Create individual field template
      * Frontend expects: POST /api/admin/templates/{fileType}/fields
@@ -398,6 +407,43 @@ public class TemplateController {
             return ResponseEntity.ok(reordered);
         } catch (Exception e) {
             log.error("Error reordering field templates for fileType: {}", fileType, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    /**
+     * Create configuration from template with metadata
+     * Frontend expects: POST /api/admin/templates/{fileType}/{transactionType}/create-config-with-metadata
+     */
+    @PostMapping("/{fileType}/{transactionType}/create-config-with-metadata")
+    public ResponseEntity<TemplateToConfigurationResult> createConfigurationFromTemplateWithMetadata(
+            @PathVariable String fileType,
+            @PathVariable String transactionType,
+            @RequestParam String sourceSystem,
+            @RequestParam String jobName,
+            @RequestParam(defaultValue = "system") String createdBy) {
+        try {
+            // Create the basic configuration
+            FieldMappingConfig config = templateService.createConfigurationFromTemplate(
+                fileType, transactionType, sourceSystem, jobName, createdBy);
+            
+            // Add template metadata
+            TemplateMetadata metadata = new TemplateMetadata();
+            metadata.setFileType(fileType);
+            metadata.setTransactionType(transactionType);
+            metadata.setTemplateVersion(1);
+            metadata.setFieldsFromTemplate(config.getFieldMappings() != null ? config.getFieldMappings().size() : 0);
+            metadata.setTotalFields(config.getFieldMappings() != null ? config.getFieldMappings().size() : 0);
+            metadata.setGeneratedAt(java.time.LocalDateTime.now().toString());
+            metadata.setGeneratedBy(createdBy);
+            
+            // Create the result with metadata using the factory method
+            TemplateToConfigurationResult result = TemplateToConfigurationResult.fromFieldMappingConfig(config, metadata);
+            
+            log.info("Created configuration with metadata for template: {}/{}", fileType, transactionType);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Error creating configuration with metadata from template: {}/{}", fileType, transactionType, e);
             return ResponseEntity.internalServerError().build();
         }
     }
